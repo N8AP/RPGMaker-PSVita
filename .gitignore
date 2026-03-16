@@ -1,6 +1,17 @@
-*.bin
+# Сборка
 *.o
 *.elf
+*.velf
+eboot.bin
+param.sfo
+
+# VPK
+vpk/
 *.vpk
-build/
-.DS_Store
+
+# Логи
+*.log
+
+# Временные файлы
+*~
+*.swp

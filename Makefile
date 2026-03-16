@@ -1,32 +1,22 @@
-TARGET = final
-OBJS = final.o virtual_buttons.o
+all: final gfx minimal simple
 
-PREFIX = arm-vita-eabi
-CC = $(PREFIX)-gcc
-CFLAGS = -Wl,-q -Wall -I.
-LIBS = -lSceLibKernel_stub -lSceCtrl_stub -lSceTouch_stub
+final:
+	$(MAKE) -f Makefile.final
 
-all: $(TARGET).vpk
+gfx:
+	$(MAKE) -f Makefile.gfx
 
-$(TARGET).elf: $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
+minimal:
+	$(MAKE) -f Makefile.minimal
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-$(TARGET).velf: $(TARGET).elf
-	vita-elf-create $< $@
-
-eboot.bin: $(TARGET).velf
-	vita-make-fself -s $< $@
-
-param.sfo:
-	vita-mksfoex -s TITLE_ID="FINA00001" "Final Test" $@
-
-$(TARGET).vpk: eboot.bin param.sfo
-	vita-pack-vpk -s param.sfo -b eboot.bin $@
+simple:
+	$(MAKE) -f Makefile.simple
 
 clean:
+	$(MAKE) -f Makefile.final clean
+	$(MAKE) -f Makefile.gfx clean
+	$(MAKE) -f Makefile.minimal clean
+	$(MAKE) -f Makefile.simple clean
 	rm -f *.o *.elf *.velf eboot.bin param.sfo *.vpk
 
-.PHONY: all clean
+.PHONY: all final gfx minimal simple clean
