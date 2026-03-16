@@ -1,0 +1,6 @@
+*.bin
+*.o
+*.elf
+*.vpk
+build/
+.DS_Store
